@@ -33,4 +33,14 @@ public class SubredditController {
     public ResponseEntity<List<SubredditResponseDTO>> getAllSubreddits(){
         return status(HttpStatus.OK).body(subredditService.getAllSubreddits());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SubredditResponseDTO> getSubreddit(@PathVariable Long id){
+        return status(HttpStatus.OK).body(subredditService.getSubreddit(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteSubreddit(@PathVariable Long id){
+        subredditService.deleteSubreddit(id);
+    }
 }

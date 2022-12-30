@@ -1,5 +1,7 @@
 package com.reddit.app.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,6 +21,7 @@ public class Subreddit {
     @Column
     private LocalDateTime createdDate;
     @OneToMany(mappedBy = "subreddit", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "subreddit-post")
     private List<Post> postList;
 
     public Subreddit() {
@@ -71,4 +74,5 @@ public class Subreddit {
     public void setPostList(List<Post> postList) {
         this.postList = postList;
     }
+
 }

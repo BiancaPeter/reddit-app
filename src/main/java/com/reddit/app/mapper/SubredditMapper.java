@@ -9,8 +9,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public abstract class SubredditMapper {
 
-
-
     @Mapping(target = "createdDate", expression = "java(java.time.LocalDateTime.now())")
     public abstract Subreddit mapDtoToSubreddit (SubredditRequestDTO subredditRequestDTO);
 
