@@ -7,6 +7,8 @@ import com.reddit.app.model.User;
 import com.reddit.app.service.JwtTokenService;
 import com.reddit.app.service.UserDetailsServiceImpl;
 import com.reddit.app.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@Api( tags = "Autentificarea utilizatorilor")
 public class AuthController {
     @Autowired
     private JwtTokenService jwtTokenService;
@@ -35,6 +38,7 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/authenticate")
+    @ApiOperation(value = "Introdu userul si parola pentru a obtine un token.")
     public String authenticate(@RequestBody AuthDTO user) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());

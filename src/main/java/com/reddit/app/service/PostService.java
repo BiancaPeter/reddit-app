@@ -2,6 +2,8 @@ package com.reddit.app.service;
 
 import com.reddit.app.DTO.PostRequestDTO;
 import com.reddit.app.DTO.PostResponseDTO;
+//import com.reddit.app.mapper.PostMapper;
+import com.reddit.app.mapper.PostMapper;
 import com.reddit.app.model.Post;
 import com.reddit.app.model.Subreddit;
 import com.reddit.app.model.User;
@@ -27,8 +29,11 @@ public class PostService {
 
     private VoteRepository voteRepository;
 
+    private PostMapper postMapper;
+
     @Autowired
-    public PostService(PostRepository postRepository, SubredditService subredditService, UserService userService, VoteRepository voteRepository) {
+    public PostService(PostMapper postMapper, PostRepository postRepository, SubredditService subredditService, UserService userService, VoteRepository voteRepository) {
+        this.postMapper = postMapper;
         this.postRepository = postRepository;
         this.subredditService = subredditService;
         this.userService = userService;
@@ -36,15 +41,16 @@ public class PostService {
     }
 
     public Post addPost(PostRequestDTO postRequestDTO) {
-        Subreddit foundSubreddit = subredditService.findSubreddit(postRequestDTO.getSubredditId());
-        Post post = new Post();
-        post.setPostName(postRequestDTO.getPostName());
-        post.setDescription(postRequestDTO.getDescription());
-        post.setCreatedDate(LocalDateTime.now());
-        post.setSubreddit(foundSubreddit);
-        post.setUser(userService.findLoggedInUser());
-        post.setVoteCount(0);
-        return postRepository.save(post);
+//        Subreddit foundSubreddit = subredditService.findSubreddit(postRequestDTO.getSubredditId());
+//        Post post = new Post();
+//        post.setPostName(postRequestDTO.getPostName());
+//        post.setDescription(postRequestDTO.getDescription());
+//        post.setCreatedDate(LocalDateTime.now());
+//        post.setSubreddit(foundSubreddit);
+//        post.setUser(userService.findLoggedInUser());
+//        post.setVoteCount(0);
+//        return  postRepository.save(post);
+       return postRepository.save(postMapper.mapDtoToPost(postRequestDTO));
     }
 
     public List<PostResponseDTO> allPosts() {
@@ -113,7 +119,7 @@ public class PostService {
         return postRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "the post was not found"));
     }
 
-    public Post update(Post post){
+    public Post update(Post post) {
         return postRepository.save(post);
     }
 }

@@ -55,8 +55,8 @@ public class CommentService {
         //(in acest caz renuntam la ObjectMapper objectMapper = new ObjectMapper();)
         //
         //ce se poate imbunatati la codul actual????
-        JsonNode response = getResponseBodyJson(CONTAINS_PROFANITY_TEXT_URL, commentRequestDTO.getText());
-        if (response.asBoolean()) {
+        String response = getResponseBodyJson(CONTAINS_PROFANITY_TEXT_URL, commentRequestDTO.getText());
+        if (Boolean.parseBoolean(response)) {
             throw new ResponseStatusException(HttpStatus.LOCKED, "the comment contains profanity words");
         }
 
@@ -71,15 +71,14 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public JsonNode getResponseBodyJson(String requestBaseUrl, String textToCheck) throws JsonProcessingException {
+    public String getResponseBodyJson(String requestBaseUrl, String textToCheck) throws JsonProcessingException {
         URI url = new UriTemplate(requestBaseUrl).expand(textToCheck);
         return makeAPICall(url);
     }
 
-    private JsonNode makeAPICall(URI url) throws JsonProcessingException {
+    private String makeAPICall(URI url) throws JsonProcessingException {
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-        ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readTree(response.getBody());
+        return response.getBody();
     }
 
     public List<CommentResponseDTO> getCommentsByPost(Long id) {

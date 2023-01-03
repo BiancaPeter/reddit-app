@@ -57,5 +57,13 @@ public class VoteService {
             postService.update(foundPost);
             return voteRepository.save(vote);
         }
+
+//        if (foundVote == null){
+//            //fac un nou vot
+//        } else if (foundVote.getVoteType().equals(voteRequestDTO.getVoteType())) {
+//            //logica pentru acelasi tip
+//        } else{
+//            //logica pentru tipuri diferite
+//        }
     }
 }

@@ -50,4 +50,5 @@ public class SubredditService {
     public Subreddit findSubreddit(Long id){
         return subredditRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "the subreddit was not found"));
     }
+
 }
