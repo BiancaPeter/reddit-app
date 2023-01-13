@@ -1,7 +1,5 @@
 package com.reddit.app.DTO;
 
-import java.time.LocalDateTime;
-
 public class PostResponseDTO {
     private Long id;
     private String postName;
@@ -11,13 +9,13 @@ public class PostResponseDTO {
     private int voteCount;
     private int commentCount;
     private Long duration;
-    private boolean isUpVoted;
-    private boolean isDownVoted;
+    private boolean upVoted;
+    private boolean downVoted;
 
     public PostResponseDTO() {
     }
 
-    public PostResponseDTO(Long id, String postName, String description, String userName, String subredditName, int voteCount, int commentCount, Long duration, boolean isUpVoted, boolean isDownVoted) {
+    public PostResponseDTO(Long id, String postName, String description, String userName, String subredditName, int voteCount, int commentCount, Long duration, boolean upVoted, boolean downVoted) {
         this.id = id;
         this.postName = postName;
         this.description = description;
@@ -26,8 +24,8 @@ public class PostResponseDTO {
         this.voteCount = voteCount;
         this.commentCount = commentCount;
         this.duration = duration;
-        this.isUpVoted = isUpVoted;
-        this.isDownVoted = isDownVoted;
+        this.upVoted = upVoted;
+        this.downVoted = downVoted;
     }
 
     public Long getId() {
@@ -94,19 +92,19 @@ public class PostResponseDTO {
         this.duration = duration;
     }
 
-    public boolean isUpVoted() {
-        return isUpVoted;
+    public boolean upVoted() {
+        return upVoted;
     }
 
     public void setUpVoted(boolean upVoted) {
-        isUpVoted = upVoted;
+        this.upVoted = upVoted;
     }
 
-    public boolean isDownVoted() {
-        return isDownVoted;
+    public boolean downVoted() {
+        return downVoted;
     }
 
     public void setDownVoted(boolean downVoted) {
-        isDownVoted = downVoted;
+        this.downVoted = downVoted;
     }
 }

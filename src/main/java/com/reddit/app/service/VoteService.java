@@ -66,4 +66,28 @@ public class VoteService {
 //            //logica pentru tipuri diferite
 //        }
     }
+
+    public boolean setUpVote(Post post) {
+        Vote foundVote = voteRepository.findByPostAndUser(post, userService.findLoggedInUser());
+        //nu arunc exceptie deoarece ma folosesc de variabila foundVote doar pentru construirea raspunsului DTO
+        if (foundVote == null) {
+            return false;
+        } else if (foundVote.getVoteType().getValue() == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean setDownVote(Post post) {
+        Vote foundVote = voteRepository.findByPostAndUser(post, userService.findLoggedInUser());
+        //nu arunc exceptie deoarece ma folosesc de variabila foundVote doar pentru construirea raspunsului DTO
+        if (foundVote == null) {
+            return false;
+        } else if (foundVote.getVoteType().getValue() == -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
