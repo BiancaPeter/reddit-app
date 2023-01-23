@@ -1,6 +1,7 @@
 package com.reddit.app;
 
 import com.reddit.app.DTO.SubredditRequestDTO;
+import com.reddit.app.DTO.SubredditResponseDTO;
 import com.reddit.app.mapper.SubredditMapper;
 import com.reddit.app.model.Subreddit;
 import com.reddit.app.repository.SubredditRepository;
@@ -21,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith({MockitoExtension.class})
-class SubredditServiceTests {
+public class SubredditServiceTests {
 
 	@InjectMocks
 	private SubredditService subredditService;
@@ -37,7 +38,7 @@ class SubredditServiceTests {
 	}
 
 	@Test
-	void testAddSubreddit(){
+	void testAddSubreddit_ShouldReturnAddedSubreddit(){
 		//given
 		SubredditRequestDTO subredditRequestDTO = new SubredditRequestDTO("Subreddit1", "Description of Subreddit1");
 
@@ -55,17 +56,28 @@ class SubredditServiceTests {
 		assertEquals("Subreddit1",result.getName());
 	}
 
-//	@Test
-//	void testGetAllSubreddits(){
+
+	@Test
+	void testGetAllSubreddits(){
 //		//given
 //		SubredditRequestDTO subredditRequestDTO1 = new SubredditRequestDTO("Subreddit1", "Description of Subreddit1");
 //		SubredditRequestDTO subredditRequestDTO2 = new SubredditRequestDTO("Subreddit2", "Description of Subreddit2");
 //		SubredditRequestDTO subredditRequestDTO3 = new SubredditRequestDTO("Subreddit3", "Description of Subreddit3");
 //		List<SubredditRequestDTO>subredditRequestDTOList= Arrays.asList(subredditRequestDTO1, subredditRequestDTO2,subredditRequestDTO3);
-//
+		Subreddit subreddit1 = new Subreddit(1l,"name1","adsfadsf",null,null);
+		Subreddit subreddit2 = new Subreddit(2l,"name2","adsfadsf",null,null);
 //		//when
+		when(subredditRepository.findAll()).thenReturn(Arrays.asList(subreddit1,subreddit2));
+		when(subredditMapper.mapSubredditToDto(subreddit1)).thenReturn(new SubredditResponseDTO("name1",null,null,null));
+		when(subredditMapper.mapSubredditToDto(subreddit2)).thenReturn(new SubredditResponseDTO("name2",null,null,null));
+
+		List<SubredditResponseDTO> result = subredditService.getAllSubreddits();
+		//then
+		assertEquals("name1", result.get(0).getName());
+		assertEquals("name2", result.get(1).getName());
+
 //		//TODO:??????????????
-//	}
+	}
 //
 //	@Test
 //	void testGetSubreddit(){

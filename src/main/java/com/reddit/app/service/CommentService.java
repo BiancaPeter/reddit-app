@@ -1,10 +1,9 @@
 package com.reddit.app.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reddit.app.DTO.CommentRequestDTO;
 import com.reddit.app.DTO.CommentResponseDTO;
+import com.reddit.app.mapper.CommentMapper;
 import com.reddit.app.model.Comment;
 import com.reddit.app.model.Post;
 import com.reddit.app.model.User;
@@ -19,12 +18,13 @@ import org.springframework.web.util.UriTemplate;
 
 import javax.mail.MessagingException;
 import java.net.URI;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
+
+    private CommentMapper commentMapper;
     private CommentRepository commentRepository;
 
     private PostService postService;
@@ -38,7 +38,8 @@ public class CommentService {
     private MailService mailService;
 
     @Autowired
-    public CommentService(CommentRepository commentRepository, PostService postService, UserService userService, RestTemplate restTemplate, MailService mailService) {
+    public CommentService(CommentMapper commentMapper, CommentRepository commentRepository, PostService postService, UserService userService, RestTemplate restTemplate, MailService mailService) {
+        this.commentMapper = commentMapper;
         this.commentRepository = commentRepository;
         this.postService = postService;
         this.userService = userService;
@@ -47,28 +48,14 @@ public class CommentService {
     }
 
     public Comment addComment(CommentRequestDTO commentRequestDTO) throws JsonProcessingException, MessagingException {
-        Post foundPost = postService.findPost(commentRequestDTO.getPostId());
-        //TODO: response ar putea fi direct valoare booleana? si nu JsonNode?
-        //am mai incercat ca in metoda makeAPICall sa returnez un String aplicand response.toString, dar valoarea
-        //retunata de tip string continea mai multe informatii printre care si valoarea de adevar true/false
-        //si ar fi fost necesar sa fac un split pt a-mi extrage informatia true/false
-        //(in acest caz renuntam la ObjectMapper objectMapper = new ObjectMapper();)
-        //
-        //ce se poate imbunatati la codul actual????
         String response = getResponseBodyJson(CONTAINS_PROFANITY_TEXT_URL, commentRequestDTO.getText());
         if (Boolean.parseBoolean(response)) {
             throw new ResponseStatusException(HttpStatus.LOCKED, "the comment contains profanity words");
         }
 
-        Comment comment = new Comment();
-        comment.setText(commentRequestDTO.getText());
-        comment.setPost(foundPost);
-        comment.setCreatedDate(LocalDateTime.now());
-        comment.setUser(userService.findLoggedInUser());
+        mailService.sendCommentMessage(postService.findPost(commentRequestDTO.getPostId()).getUser().getEmail(), commentRequestDTO.getText(), commentRequestDTO.getPostId());
 
-        mailService.sendCommentMessage(comment.getPost().getUser().getEmail(), comment);
-
-        return commentRepository.save(comment);
+        return commentRepository.save(commentMapper.mapDtoToComment(commentRequestDTO));
     }
 
     public String getResponseBodyJson(String requestBaseUrl, String textToCheck) throws JsonProcessingException {
@@ -83,32 +70,16 @@ public class CommentService {
 
     public List<CommentResponseDTO> getCommentsByPost(Long id) {
         Post foundPost = postService.findPost(id);
-        return transformCommentListDBToCommentResponseDTOList(foundPost.getCommentList());
-    }
-
-
-    public List<CommentResponseDTO> transformCommentListDBToCommentResponseDTOList(List<Comment>commentList) {
-        List<CommentResponseDTO> commentResponseDTOList = new ArrayList<>();
-        for (Comment comment : commentList) {
-            CommentResponseDTO newCommentResponseDTO = constructNewCommentResponseDTO(comment);
-            commentResponseDTOList.add(newCommentResponseDTO);
-        }
-        return commentResponseDTOList;
-    }
-
-    public CommentResponseDTO constructNewCommentResponseDTO(Comment comment){
-        CommentResponseDTO newCommentResponseDTO = new CommentResponseDTO();
-        newCommentResponseDTO.setId(comment.getId());
-        newCommentResponseDTO.setPostId(comment.getPost().getId());
-        newCommentResponseDTO.setCreatedDate(comment.getCreatedDate());
-        newCommentResponseDTO.setText(comment.getText());
-        newCommentResponseDTO.setUsername(comment.getUser().getUsername());
-        return newCommentResponseDTO;
+        return foundPost.getCommentList().stream()
+                .map(comment -> commentMapper.mapCommentToDto(comment))
+                .collect(Collectors.toList());
     }
 
     public List<CommentResponseDTO> getCommentsByUser(Long id) {
         User foundUser = userService.findUser(id);
-        return transformCommentListDBToCommentResponseDTOList(foundUser.getCommentList());
+        return foundUser.getCommentList().stream()
+                .map(comment -> commentMapper.mapCommentToDto(comment))
+                .collect(Collectors.toList());
     }
 
 }

@@ -3,10 +3,10 @@ package com.reddit.app.DTO;
 import java.time.LocalDateTime;
 
 public class CommentResponseDTO {
-    private Long id;
-    private Long postId;
-    private LocalDateTime createdDate;
-    private String text;
+    private Long id;  //
+    private Long postId;  //
+    private LocalDateTime createdDate; //
+    private String text;  //
     private String username;
 
     public CommentResponseDTO() {

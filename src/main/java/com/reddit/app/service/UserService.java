@@ -3,7 +3,6 @@ package com.reddit.app.service;
 import com.reddit.app.DTO.RegisterDTO;
 import com.reddit.app.model.Role;
 import com.reddit.app.model.RoleType;
-import com.reddit.app.model.Subreddit;
 import com.reddit.app.model.User;
 import com.reddit.app.repository.RoleRepository;
 import com.reddit.app.repository.UserRepository;

@@ -33,18 +33,18 @@ public class PostController {
         return status(HttpStatus.OK).body(postService.getAllPosts());
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<PostResponseDTO> getPostBy(@PathVariable Long id){
-//        return status(HttpStatus.OK).body(postService.getPostBy(id));
-//    }
-//
-//    @GetMapping("/subreddit/{id}")
-//    public ResponseEntity<List<PostResponseDTO>> getPostsBySubreddit(@PathVariable Long id){
-//        return status(HttpStatus.OK).body(postService.getPostsBySubreddit(id));
-//    }
-//
-//    @GetMapping("/user/{id}")
-//    public ResponseEntity<List<PostResponseDTO>> getPostsByUser(@PathVariable Long id){
-//        return status(HttpStatus.OK).body(postService.getPostsByUser(id));
-//    }
+    @GetMapping("/{id}")
+    public ResponseEntity<PostResponseDTO> getPostBy(@PathVariable Long id){
+        return status(HttpStatus.OK).body(postService.getPostBy(id));
+    }
+
+    @GetMapping("/subreddit/{id}")
+    public ResponseEntity<List<PostResponseDTO>> getPostsBySubreddit(@PathVariable Long id){
+        return status(HttpStatus.OK).body(postService.getPostsBySubreddit(id));
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<PostResponseDTO>> getPostsByUser(@PathVariable Long id){
+        return status(HttpStatus.OK).body(postService.getPostsByUser(id));
+    }
 }
