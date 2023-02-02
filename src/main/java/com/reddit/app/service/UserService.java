@@ -20,15 +20,16 @@ import java.util.Optional;
 public class UserService {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
-    @Autowired
+    private RoleService roleService;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
     }
-
 
     public User register(RegisterDTO newUser) {
         Optional<User> foundUserOptional = userRepository.findUserByUsername(newUser.getUsername());
@@ -39,10 +40,21 @@ public class UserService {
         user.setUsername(newUser.getUsername());
         user.setEmail(newUser.getEmail());
         user.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        Role foundRole = roleRepository.findByRoleType(RoleType.ROLE_USER);
-        user.getRoleList().add(foundRole);
-        foundRole.getUserList().add(user);
+        //daca exista rolul in baza de date atunci doar il luam
+        //daca nu exista si este ADMIN sau USER, atunci il adaugam
+        Role foundRole = roleRepository.findByRoleType(newUser.getRoleType());
+        if (foundRole != null) {
+            setRoleOfUser(user, foundRole);
+        } else if (newUser.getRoleType().equals(RoleType.ROLE_ADMIN_SUBREDDIT) || newUser.getRoleType().equals(RoleType.ROLE_USER)) {
+            Role newRole = roleService.addRole(newUser.getRoleType());
+            setRoleOfUser(user, newRole);
+        }
         return userRepository.save(user);
+    }
+
+    private static void setRoleOfUser(User user, Role role) {
+        user.getRoleList().add(role);
+        role.getUserList().add(user);
     }
 
     public User findLoggedInUser() {
@@ -51,7 +63,7 @@ public class UserService {
         return foundUser;
     }
 
-    public User findUser(Long id){
+    public User findUser(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "the user was not found"));
     }
 

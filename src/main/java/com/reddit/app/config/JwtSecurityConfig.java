@@ -42,20 +42,20 @@ public class JwtSecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public SecurityFilterChain configure (HttpSecurity http) throws Exception {
+    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/authenticate").permitAll()
                 .antMatchers("/register").permitAll()
-                .antMatchers("/cinema/**").hasRole("ADMIN")
-                .antMatchers("/movie/**").hasRole("ADMIN")
-                .antMatchers("/movie").hasRole("CLIENT")
-                .antMatchers(AUTH_WHITELIST).permitAll()
+//                .antMatchers("/subreddit/**").hasAnyRole(" ROLE_ADMIN_SUBREDDIT", "ROLE_USER")
+//                .antMatchers("/post/**").hasAnyRole(" ROLE_ADMIN_SUBREDDIT", "ROLE_USER")
+//                .antMatchers("/comment/**").hasAnyRole(" ROLE_ADMIN_SUBREDDIT", "ROLE_USER")
+//             //   .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -64,6 +64,8 @@ public class JwtSecurityConfig {
                 .build();
     }
 
+    //TODO:403 Forbidden The request was a legal request, but the server is refusing to respond to it. Unlike a 401 Unauthorized response, authenticating will make no difference.
+    //fiecare user are o lista de Role, ar trebui sa accesez cumva elementele din lista....
 
 }
 

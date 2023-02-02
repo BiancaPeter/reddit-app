@@ -1,5 +1,7 @@
 package com.reddit.app.DTO;
 
+import com.reddit.app.model.RoleType;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -14,10 +16,14 @@ public class RegisterDTO {
     @Email(message = "Email provided is not valid")
     private String email;
 
-    public RegisterDTO(String username, String password, String email) {
+    //@NotBlank(message = "RoleType is mandatory")
+    private RoleType roleType;
+
+    public RegisterDTO(String username, String password, String email, RoleType roleType) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.roleType = roleType;
     }
 
     public String getUsername() {
@@ -42,6 +48,14 @@ public class RegisterDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public RoleType getRoleType() {
+        return roleType;
+    }
+
+    public void setRoleType(RoleType roleType) {
+        this.roleType = roleType;
     }
 }
 

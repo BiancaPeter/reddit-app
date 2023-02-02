@@ -8,9 +8,9 @@ import com.reddit.app.repository.SubredditRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,7 +47,7 @@ public class SubredditService {
         subredditRepository.delete(foundSubreddit);
     }
 
-    public Subreddit findSubreddit(Long id){
+    public Subreddit findSubreddit(Long id) {
         return subredditRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "the subreddit was not found"));
     }
 

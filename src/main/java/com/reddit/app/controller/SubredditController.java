@@ -1,5 +1,6 @@
 package com.reddit.app.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.reddit.app.DTO.SubredditRequestDTO;
 import com.reddit.app.DTO.SubredditResponseDTO;
 import com.reddit.app.model.Subreddit;
@@ -28,7 +29,6 @@ public class SubredditController {
         return status(HttpStatus.OK).body(subredditService.addSubreddit(subredditRequestDTO));
     }
 
-
     @GetMapping("/all")
     public ResponseEntity<List<SubredditResponseDTO>> getAllSubreddits(){
         return status(HttpStatus.OK).body(subredditService.getAllSubreddits());
@@ -43,4 +43,5 @@ public class SubredditController {
     public void deleteSubreddit(@PathVariable Long id){
         subredditService.deleteSubreddit(id);
     }
+
 }
