@@ -5,20 +5,25 @@ import com.theokanning.openai.completion.CompletionRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class SuggestionsService {
     @Autowired
     private OpenAiService openAiService;
 
-    public void getCompletion() {
+    public List<String> getCompletion() {
 
         CompletionRequest completionRequest = CompletionRequest.builder()
                 .prompt("Give me a suitable title for a forum thread about cars")
                 .model("text-davinci-003")
                 .echo(true)
                 .build();
-        openAiService.createCompletion(completionRequest).getChoices().forEach(System.out::println);
+        return openAiService.createCompletion(completionRequest).getChoices().stream().map(choice -> choice.getText()).collect(Collectors.toList());
+
     }
-//TODO:de ce NullPointerException: Cannot invoke "com.theokanning.openai.OpenAiService.createCompletion(com.theokanning.openai.completion.CompletionRequest)" because "this.openAiService" is null
+//TODO:de ce NullPointerException: Cannot invoke "com.theokanning.openai.OpenAiService.createCompletion
+// (com.theokanning.openai.completion.CompletionRequest)" because "this.openAiService" is null
     //avem un bean pe care il injectam, nu ar trebui sa-mi dea aceasta exceptie
 }

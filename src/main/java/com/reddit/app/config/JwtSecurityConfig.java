@@ -52,7 +52,7 @@ public class JwtSecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/authenticate").permitAll()
                 .antMatchers("/register").permitAll()
-//                .antMatchers("/subreddit/**").hasAnyRole(" ROLE_ADMIN_SUBREDDIT", "ROLE_USER")
+                .antMatchers("/subreddit/**").hasAnyRole("ADMIN_SUBREDDIT", "USER")
 //                .antMatchers("/post/**").hasAnyRole(" ROLE_ADMIN_SUBREDDIT", "ROLE_USER")
 //                .antMatchers("/comment/**").hasAnyRole(" ROLE_ADMIN_SUBREDDIT", "ROLE_USER")
 //             //   .antMatchers(AUTH_WHITELIST).permitAll()

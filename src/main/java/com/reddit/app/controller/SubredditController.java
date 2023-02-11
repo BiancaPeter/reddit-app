@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.reddit.app.DTO.SubredditRequestDTO;
 import com.reddit.app.DTO.SubredditResponseDTO;
 import com.reddit.app.model.Subreddit;
+import com.reddit.app.openAI.SuggestionsService;
 import com.reddit.app.service.SubredditService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,9 +20,12 @@ import static org.springframework.http.ResponseEntity.status;
 public class SubredditController {
     private SubredditService subredditService;
 
+    private SuggestionsService suggestionsService;
+
     @Autowired
-    public SubredditController(SubredditService subredditService) {
+    public SubredditController(SubredditService subredditService, SuggestionsService suggestionsService) {
         this.subredditService = subredditService;
+        this.suggestionsService=suggestionsService;
     }
 
     @PostMapping("/add")
@@ -32,6 +36,11 @@ public class SubredditController {
     @GetMapping("/all")
     public ResponseEntity<List<SubredditResponseDTO>> getAllSubreddits(){
         return status(HttpStatus.OK).body(subredditService.getAllSubreddits());
+    }
+
+    @GetMapping("/openaitest")
+    public ResponseEntity<List<String>> openAiTest(){
+        return status(HttpStatus.OK).body(suggestionsService.getCompletion());
     }
 
     @GetMapping("/{id}")
