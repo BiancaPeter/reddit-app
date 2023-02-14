@@ -47,4 +47,6 @@ public class PostController {
     public ResponseEntity<List<PostResponseDTO>> getPostsByUser(@PathVariable Long id){
         return status(HttpStatus.OK).body(postService.getPostsByUser(id));
     }
+
+    //TODO: delete post
 }

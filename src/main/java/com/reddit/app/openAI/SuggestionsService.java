@@ -23,7 +23,4 @@ public class SuggestionsService {
         return openAiService.createCompletion(completionRequest).getChoices().stream().map(choice -> choice.getText()).collect(Collectors.toList());
 
     }
-//TODO:de ce NullPointerException: Cannot invoke "com.theokanning.openai.OpenAiService.createCompletion
-// (com.theokanning.openai.completion.CompletionRequest)" because "this.openAiService" is null
-    //avem un bean pe care il injectam, nu ar trebui sa-mi dea aceasta exceptie
 }

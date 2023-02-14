@@ -41,4 +41,6 @@ public class CommentController {
         return status(HttpStatus.OK).body(commentService.getCommentsByUser(id));
     }
 
+
+    //TODO: delete a comment
 }

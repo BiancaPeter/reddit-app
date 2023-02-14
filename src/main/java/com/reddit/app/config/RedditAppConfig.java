@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class RedditAppConfig {
 
-    @Value("api.openAI.key")
+    @Value("${api.openAI.key}")
     private String OPEN_AI_API_KEY;
 
     @Bean

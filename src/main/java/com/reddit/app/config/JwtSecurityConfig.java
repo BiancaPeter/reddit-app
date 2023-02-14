@@ -55,7 +55,7 @@ public class JwtSecurityConfig {
                 .antMatchers("/subreddit/**").hasAnyRole("ADMIN_SUBREDDIT", "USER")
 //                .antMatchers("/post/**").hasAnyRole(" ROLE_ADMIN_SUBREDDIT", "ROLE_USER")
 //                .antMatchers("/comment/**").hasAnyRole(" ROLE_ADMIN_SUBREDDIT", "ROLE_USER")
-//             //   .antMatchers(AUTH_WHITELIST).permitAll()
+             //   .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -63,9 +63,6 @@ public class JwtSecurityConfig {
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-
-    //TODO:403 Forbidden The request was a legal request, but the server is refusing to respond to it. Unlike a 401 Unauthorized response, authenticating will make no difference.
-    //fiecare user are o lista de Role, ar trebui sa accesez cumva elementele din lista....
 
 }
 
