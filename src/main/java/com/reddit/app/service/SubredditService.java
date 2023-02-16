@@ -5,6 +5,8 @@ import com.reddit.app.DTO.SubredditResponseDTO;
 import com.reddit.app.mapper.SubredditMapper;
 import com.reddit.app.model.Subreddit;
 import com.reddit.app.repository.SubredditRepository;
+import com.theokanning.openai.OpenAiService;
+import com.theokanning.openai.completion.CompletionRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,10 +21,13 @@ public class SubredditService {
 
     private SubredditMapper subredditMapper;
 
+    private OpenAiService openAiService;
+
     @Autowired
-    public SubredditService(SubredditRepository subredditRepository, SubredditMapper subredditMapper) {
+    public SubredditService(SubredditRepository subredditRepository, SubredditMapper subredditMapper, OpenAiService openAiService) {
         this.subredditRepository = subredditRepository;
         this.subredditMapper = subredditMapper;
+        this.openAiService = openAiService;
     }
 
     public Subreddit addSubreddit(SubredditRequestDTO subredditRequestDTO) {
@@ -46,8 +51,17 @@ public class SubredditService {
         subredditRepository.delete(foundSubreddit);
     }
 
+
     public Subreddit findSubreddit(Long id) {
         return subredditRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "the subreddit was not found"));
     }
 
+    public List<String> getCompletion(String about) {
+        CompletionRequest completionRequest = CompletionRequest.builder()
+                .prompt("Give me a suitable title for a forum thread about " + about)
+                .model("text-davinci-003")
+                .echo(true)
+                .build();
+        return openAiService.createCompletion(completionRequest).getChoices().stream().map(choice -> choice.getText()).collect(Collectors.toList());
+    }
 }
