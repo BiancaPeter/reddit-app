@@ -48,5 +48,4 @@ public class PostController {
         return status(HttpStatus.OK).body(postService.getPostsByUser(id));
     }
 
-    //TODO: delete post
 }

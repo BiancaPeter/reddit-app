@@ -57,7 +57,7 @@ You can view the demo here:
 #### Add a new subreddit
 
 ```http
-  POST/subreddit/add
+  POST /subreddit/add
 ```
 
 | Parameter | Type     | Description                                           |
@@ -94,7 +94,7 @@ Request body example:
 #### Delete a subreddit
 
 ```http
-  DELETE/subreddit/${subredditId}
+  DELETE /subreddit/${subredditId}
 ```
 
 | Parameter | Type     | Description                             |
@@ -105,7 +105,7 @@ Request body example:
 #### Add a new post
 
 ```http
-  POST/post/add
+  POST /post/add
 ```
 
 | Parameter | Type     | Description                                      |
@@ -164,18 +164,9 @@ Request body example:
 
 
 
-#### Delete a post
-
-```http
-  DELETE/post/${postId}
-```
-
-| Parameter | Type     | Description                        |
-| :-------- | :------- |:-----------------------------------|
-| `id`      | `string` | **Required**. Id of post to delete |
 
 
-#### Create a new post
+#### Create a new comment
 
 ```http
   POST/comment/create
@@ -219,17 +210,6 @@ Request body example:
 
 
 
-#### Delete a comment
-
-```http
-  DELETE/comment/${commentId}
-```
-
-| Parameter | Type     | Description                           |
-| :-------- | :------- |:--------------------------------------|
-| `id`      | `string` | **Required**. Id of comment to delete |
-
-
 #### Add a vote
 
 ```http
@@ -248,7 +228,6 @@ Request body example:
   "postId": "string"
 }
 ```  
-
 
 
 ## API Authentication and Authorization

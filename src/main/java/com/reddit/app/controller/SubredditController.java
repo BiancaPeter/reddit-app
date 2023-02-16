@@ -43,7 +43,7 @@ public class SubredditController {
         return status(HttpStatus.OK).body(subredditService.getSubreddit(id));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteSubreddit(@PathVariable Long id){
         subredditService.deleteSubreddit(id);
     }
