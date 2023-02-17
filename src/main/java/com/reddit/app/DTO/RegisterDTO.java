@@ -16,7 +16,6 @@ public class RegisterDTO {
     @Email(message = "Email provided is not valid")
     private String email;
 
-    //@NotBlank(message = "RoleType is mandatory")
     private RoleType roleType;
 
     public RegisterDTO(String username, String password, String email, RoleType roleType) {

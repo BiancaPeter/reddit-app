@@ -24,7 +24,7 @@ public class SwaggerConfiguration {
                 "Some custom description of API.",
                 "1.0",
                 "Terms of service",
-                new Contact("Sallo Szrajbman", "www.baeldung.com", "salloszraj@gmail.com"),
+                new Contact("Peter Bianca", "www.github.com/BiancaPeter/reddit-app", "bianca.peter915@gmail.com"),
                 "License of API",
                 "API license URL",
                 Collections.emptyList());

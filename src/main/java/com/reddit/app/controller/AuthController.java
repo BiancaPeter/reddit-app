@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@Api( tags = "Autentificarea utilizatorilor")
+@Api( tags = "User authentication")
 public class AuthController {
     @Autowired
     private JwtTokenService jwtTokenService;
@@ -38,7 +38,7 @@ public class AuthController {
     private UserService userService;
 
     @PostMapping("/authenticate")
-    @ApiOperation(value = "Introdu userul si parola pentru a obtine un token.")
+    @ApiOperation(value = "Enter your username and password to get a token.")
     public String authenticate(@RequestBody AuthDTO user) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
         UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
@@ -46,6 +46,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
+    @ApiOperation(value = "To register, enter username, password, email address and role type.")
     public User register(@Valid @RequestBody RegisterDTO newUser) {
         return userService.register(newUser);
     }
