@@ -25,6 +25,8 @@ public class RegisterDTO {
         this.roleType = roleType;
     }
 
+    public RegisterDTO(){}
+
     public String getUsername() {
         return username;
     }
