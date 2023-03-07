@@ -35,18 +35,21 @@ public class VoteServiceTests {
 
     @Test
     void testAddVote_ShouldReturnAddedVote() {
-//        //given
-//        Post foundPost = new Post(1L, "post1", "description1", 3, null, null, null, null, null);
-//        User foundUser = new User(1L, "username", "password", "email", null, null, null, null);
-//        Vote foundVote = null;
-//
-//        when(postService.findPost(any())).thenReturn(foundPost);
-//        when(userService.findLoggedInUser()).thenReturn(foundUser);
-//        when(voteRepository.findByPostAndUser(any(),any())).thenReturn(foundVote);
-//
-//        VoteRequestDTO voteRequestDTO = new VoteRequestDTO(VoteType.UP_VOTE,foundPost.getId());
-//        Vote result = voteService.addVote(voteRequestDTO);
-//        //TODO: de ce result e null? cand am iesit din metoda addVote (din clasa voteService) aveam un obiect ce sa salvat
-//        assertEquals("UP_VOTE", result.getVoteType());
+        //given
+        Post foundPost = new Post(1L, "post1", "description1", 3, null, null, null, null, null);
+        User foundUser = new User(1L, "username", "password", "email", null, null, null, null);
+        Vote foundVote = null;
+        Vote voteToBeAddded = new Vote(1L, VoteType.UP_VOTE, foundPost, foundUser);
+
+        when(postService.findPost(any())).thenReturn(foundPost);
+        when(userService.findLoggedInUser()).thenReturn(foundUser);
+        when(voteRepository.findByPostAndUser(any(),any())).thenReturn(foundVote);
+        when(voteRepository.save(any())).thenReturn(voteToBeAddded);
+
+
+        VoteRequestDTO voteRequestDTO = new VoteRequestDTO(VoteType.UP_VOTE,foundPost.getId());
+        Vote result = voteService.addVote(voteRequestDTO);
+        assertEquals(VoteType.UP_VOTE, result.getVoteType());
+        assertEquals(4, foundPost.getVoteCount());
     }
 }

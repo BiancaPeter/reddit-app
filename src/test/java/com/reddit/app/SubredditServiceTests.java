@@ -82,28 +82,21 @@ public class SubredditServiceTests {
     }
 //TODO: nu merge!
 
-//    @Test
-//    void testGetSubredditById_ShouldReturnTrowException() throws ResponseStatusException {
-//        //given
-//        Subreddit subreddit1 = new Subreddit(1l, "name1", "adsfadsf", null, null);
-//        //when
-//        when(subredditRepository.findById(any())).thenReturn(Optional.of(subreddit1));
-//        when(subredditMapper.mapSubredditToDto(subreddit1)).thenReturn(new SubredditResponseDTO("name1", null, null, null));
-//        //then
-//        assertThrows(ResponseStatusException.class, () -> subredditService.getSubreddit(3L));
-//    }
+    @Test
+    void testGetSubredditById_ShouldReturnTrowException() throws ResponseStatusException {
+        //given
+        //when
+        when(subredditRepository.findById(any())).thenReturn(Optional.empty());
+        //then
+        assertThrows(ResponseStatusException.class, () -> subredditService.getSubreddit(3L));
+    }
 
-//    @Test
-//    void testDeleteSubredditById_ShouldReturnDeletedSubredditById() {
-//        //given
-//        Subreddit subreddit1 = new Subreddit(1l, "name1", "adsfadsf", null, null);
-//        //when
-//        when(subredditRepository.findById(any())).thenReturn(Optional.of(subreddit1));
-//        when(subredditMapper.mapSubredditToDto(subreddit1)).thenReturn(new SubredditResponseDTO("name1", null, null, null));
-//
-//        SubredditResponseDTO result = subredditService.getSubreddit(1l);
-//        //then
-//        assertEquals("name1", result.getName());
-//    }
+    @Test
+    void testDeleteSubredditById_ShouldThrowExceptionIfSubredditNotFound() {
+        //given
+        when(subredditRepository.findById(any())).thenReturn(Optional.empty());
+        //then
+        assertThrows(ResponseStatusException.class, () -> subredditService.deleteSubreddit(3L));
+    }
 }
 
