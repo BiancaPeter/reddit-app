@@ -49,7 +49,7 @@ As an admin, I can:
 
 You can view the demo here:
 
-(insert link to video demo)
+https://youtu.be/3p3iiU8xTLQ
 
 
 ## API Reference
@@ -87,9 +87,9 @@ Request body example:
   GET /subreddit/${subredditId}
 ```
 
-| Parameter | Type     | Description                            |
-| :-------- | :------- |:---------------------------------------|
-| `id`      | `string` | **Required**. Id of subreddit to fetch |
+| Parameter | Type     | Description                           |
+| :-------- | :------- |:--------------------------------------|
+| `id`      | `string` | **Required**. Id of subreddit to fetch|
 
 #### Delete a subreddit
 
@@ -97,9 +97,9 @@ Request body example:
   DELETE /subreddit/${subredditId}
 ```
 
-| Parameter | Type     | Description                             |
-| :-------- | :------- |:----------------------------------------|
-| `id`      | `string` | **Required**. Id of subreddit to delete |
+| Parameter | Type     | Description                                 |
+| :-------- | :------- |:--------------------------------------------|
+| `id`      | `string` | **Required**. Id of subreddit to be deleted |
 
 
 #### Add a new post
@@ -161,8 +161,6 @@ Request body example:
 | Parameter | Type     | Description                             |
 | :-------- | :------- |:----------------------------------------|
 | `id`      | `string` | **Required**. Id of user to posts fetch |
-
-
 
 
 
@@ -352,7 +350,7 @@ To deploy this project run
 
 ## Usage
 
-You cand use the a demo version of the app, using SwaggerUI and following this link:
+You can use the demo version of the app, using SwaggerUI and following this link:
 
 ```javascript
 https://obscure-peal.heroku.app/swagger-ui/

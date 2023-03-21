@@ -46,7 +46,6 @@ public class VoteServiceTests {
         when(voteRepository.findByPostAndUser(any(),any())).thenReturn(foundVote);
         when(voteRepository.save(any())).thenReturn(voteToBeAddded);
 
-
         VoteRequestDTO voteRequestDTO = new VoteRequestDTO(VoteType.UP_VOTE,foundPost.getId());
         Vote result = voteService.addVote(voteRequestDTO);
         assertEquals(VoteType.UP_VOTE, result.getVoteType());
